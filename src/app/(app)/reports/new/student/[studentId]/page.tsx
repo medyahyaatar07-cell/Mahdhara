@@ -4,6 +4,9 @@ import { todayISO, isValidISODate } from "@/lib/dates";
 import { StudentReportEditor, type StudentReportInitial } from "@/components/report-editors/student-report-editor";
 
 export const dynamic = "force-dynamic";
+// PDF generation launches a headless browser, which can take longer than the
+// platform's default Server Action timeout, especially on a cold start.
+export const maxDuration = 60;
 
 export default async function NewStudentReportPage({
   params,

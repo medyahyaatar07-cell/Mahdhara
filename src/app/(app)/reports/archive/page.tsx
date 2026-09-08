@@ -6,6 +6,9 @@ import { ReportRowActions } from "@/components/report-row-actions";
 import { formatShortDate } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
+// "Regenerate PDF" launches a headless browser, which can take longer than
+// the platform's default Server Action timeout, especially on a cold start.
+export const maxDuration = 60;
 
 const TYPE_LABELS: Record<string, string> = {
   student: "تقرير طالب",

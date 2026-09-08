@@ -10,6 +10,9 @@ import { ReportRowActions } from "@/components/report-row-actions";
 import { Pencil, FileText } from "lucide-react";
 
 export const dynamic = "force-dynamic";
+// "Regenerate PDF" launches a headless browser, which can take longer than
+// the platform's default Server Action timeout, especially on a cold start.
+export const maxDuration = 60;
 
 export default async function StudentProfilePage({
   params,

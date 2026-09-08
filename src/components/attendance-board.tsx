@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FileText, Save } from "lucide-react";
 import { Button, Textarea, Input } from "@/components/ui";
 import { cn } from "@/lib/utils";
@@ -46,6 +47,7 @@ export function AttendanceBoard({
   const [pending, startTransition] = useTransition();
   const [message, setMessage] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+  const router = useRouter();
 
   const filtered = useMemo(() => {
     if (!query.trim()) return students;
@@ -64,6 +66,21 @@ export function AttendanceBoard({
     startTransition(async () => {
       const res = await saveAttendanceDayAction(date, Object.values(rows));
       setMessage(res.error || "تم حفظ حضور اليوم بنجاح ✓");
+    });
+  }
+
+  // Reports read attendance back from the database, so any unsaved change
+  // on this screen must be persisted before navigating to a report —
+  // otherwise the report would reflect stale (or empty) attendance data.
+  function handleSaveAndGo(href: string) {
+    setMessage(null);
+    startTransition(async () => {
+      const res = await saveAttendanceDayAction(date, Object.values(rows));
+      if (res.error) {
+        setMessage(res.error);
+        return;
+      }
+      router.push(href);
     });
   }
 
@@ -90,10 +107,28 @@ export function AttendanceBoard({
             <span className="text-rose-600">غائب: {summary.absent}</span>
             <span className="text-amber-600">متأخر: {summary.late}</span>
           </div>
-          <Button onClick={handleSave} disabled={pending} size="sm">
-            <Save size={16} />
-            {pending ? "جارٍ الحفظ..." : "حفظ اليوم"}
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={pending}
+              onClick={() => handleSaveAndGo(`/reports/new/general?date=${date}`)}
+            >
+              التقرير العام
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={pending}
+              onClick={() => handleSaveAndGo(`/reports/new/absence?date=${date}`)}
+            >
+              تقرير الغياب
+            </Button>
+            <Button onClick={handleSave} disabled={pending} size="sm">
+              <Save size={16} />
+              {pending ? "جارٍ الحفظ..." : "حفظ اليوم"}
+            </Button>
+          </div>
         </div>
         {message && (
           <p className="text-sm font-bold text-foreground/70">{message}</p>

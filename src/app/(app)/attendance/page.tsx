@@ -2,7 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { todayISO, isValidISODate, formatArabicDate } from "@/lib/dates";
 import { AttendanceBoard } from "@/components/attendance-board";
-import { EmptyState, LinkButton } from "@/components/ui";
+import { EmptyState } from "@/components/ui";
 import { DateFilter } from "@/components/date-filter";
 import type { AttendanceRowInput } from "@/app/(app)/attendance/actions";
 
@@ -46,12 +46,6 @@ export default async function AttendancePage({
         </div>
         <div className="flex items-center gap-2">
           <DateFilter date={selectedDate} />
-          <LinkButton href={`/reports/new/general?date=${selectedDate}`} size="sm" variant="outline">
-            التقرير العام
-          </LinkButton>
-          <LinkButton href={`/reports/new/absence?date=${selectedDate}`} size="sm" variant="outline">
-            تقرير الغياب
-          </LinkButton>
         </div>
       </div>
 
