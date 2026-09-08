@@ -141,14 +141,12 @@ export function StudentReportEditor({
           </Field>
         </div>
 
-        <Field label="المحصول اليومي" hint="مأخوذ من صفحة الحضور — لتعديله عُد إلى صفحة الحضور">
-          <p className="min-h-[3.5rem] whitespace-pre-wrap rounded-lg border border-border bg-black/5 px-3 py-2 text-sm text-foreground/80 dark:bg-white/5">
-            {values.dailyAchievement || (
-              <span className="text-foreground/40">
-                لم يُسجَّل محصول يومي لهذا الطالب في الحضور
-              </span>
-            )}
-          </p>
+        <Field label="المحصول اليومي" hint="مثال: حفظ سورة الملك من الآية 1 إلى الآية 15 — يظهر تلقائيًا في التقرير العام والحضور بعد الحفظ">
+          <Textarea
+            rows={4}
+            value={values.dailyAchievement}
+            onChange={(e) => set("dailyAchievement", e.target.value)}
+          />
         </Field>
         <Field label="الملاحظات">
           <Textarea rows={3} value={values.notes} onChange={(e) => set("notes", e.target.value)} />
@@ -156,7 +154,7 @@ export function StudentReportEditor({
 
         {values.attendanceStatus === "present" && !values.dailyAchievement.trim() && (
           <p className="rounded-xl bg-sky-100 px-3 py-2 text-sm font-bold text-sky-800 dark:bg-sky-900/30 dark:text-sky-300">
-            تنبيه: لم يتم تسجيل محصول يومي لهذا الطالب في صفحة الحضور. عُد إلى صفحة الحضور لإضافته.
+            تنبيه: لم يتم إدخال المحصول اليومي لهذا الطالب. يمكنك الحفظ رغم ذلك.
           </p>
         )}
         {error && (

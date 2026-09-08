@@ -27,7 +27,10 @@ const NAV_ITEMS = [
   { href: "/settings", label: "الإعدادات", icon: Settings },
 ];
 
-const BOTTOM_NAV_ITEMS = NAV_ITEMS.slice(0, 5);
+// Show every section on the mobile bottom bar too — it used to cut off
+// after the 5th item, which silently hid "الإعدادات" (Settings) on phones
+// with no other way to reach that page.
+const BOTTOM_NAV_ITEMS = NAV_ITEMS;
 
 function isActive(pathname: string, href: string) {
   if (href === "/") return pathname === "/";

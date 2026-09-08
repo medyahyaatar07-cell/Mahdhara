@@ -82,6 +82,28 @@ export async function saveStudentReportAction(
     reportId = created.id;
   }
 
+  // Keep the single daily_attendance record for this student+date in sync
+  // with what was just entered here. daily_attendance is the record the
+  // attendance page AND the general report both read from, so without this
+  // write-back the achievement/status typed into a student report would
+  // only ever show up in that one report — exactly the mismatch that was
+  // reported. Only status + daily_achievement are sent, so absence_reason
+  // and supervisor notes already on the attendance row are left untouched.
+  const { error: syncError } = await supabase.from("daily_attendance").upsert(
+    {
+      student_id: studentId,
+      date: reportDate,
+      status: payload.attendance_status_snapshot,
+      daily_achievement: payload.daily_achievement_snapshot || null,
+      created_by: profile.id,
+      updated_by: profile.id,
+    },
+    { onConflict: "student_id,date" }
+  );
+  if (syncError) {
+    return { error: "تم حفظ التقرير لكن تعذّر تحديث سجل الحضور: " + syncError.message };
+  }
+
   if (generatePdf) {
     const { data: fullReport } = await supabase
       .from("daily_reports")
@@ -98,6 +120,7 @@ export async function saveStudentReportAction(
   }
 
   revalidatePath(`/students/${studentId}`);
+  revalidatePath("/attendance");
   revalidatePath("/reports/archive");
   redirect(`/reports/${reportId}`);
 }

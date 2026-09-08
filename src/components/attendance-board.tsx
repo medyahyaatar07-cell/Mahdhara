@@ -4,7 +4,7 @@ import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FileText, Save } from "lucide-react";
-import { Button, Textarea, Input } from "@/components/ui";
+import { Button, Input } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { saveAttendanceDayAction, type AttendanceRowInput } from "@/app/(app)/attendance/actions";
 import type { AttendanceStatus } from "@/lib/types";
@@ -184,13 +184,15 @@ export function AttendanceBoard({
                 />
               )}
 
-              <Textarea
-                className="mb-2"
-                placeholder="المحصول اليومي: مثال: حفظ سورة الملك من الآية 1 إلى الآية 15"
-                rows={2}
-                value={row.daily_achievement}
-                onChange={(e) => patch(s.id, { daily_achievement: e.target.value })}
-              />
+              {/* المحصول اليومي يُسجَّل من صفحة "تقرير" كل طالب (زر أعلاه)،
+                  ويظهر تلقائيًا هنا وفي التقرير العام بعد حفظه هناك — هذه
+                  الصفحة تبقى مخصصة لتسجيل الحضور فقط. */}
+              {row.daily_achievement && (
+                <p className="mb-2 rounded-lg border border-dashed border-border px-3 py-2 text-xs text-foreground/60">
+                  <b className="text-foreground/40">المحصول المسجَّل: </b>
+                  {row.daily_achievement}
+                </p>
+              )}
               <Input
                 placeholder="ملاحظات المشرف (اختياري)"
                 value={row.notes}
