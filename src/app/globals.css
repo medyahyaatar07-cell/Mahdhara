@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --primary: #0f766e;
+  --primary-foreground: #ffffff;
+}
+
+.dark {
+  --background: #0b1220;
+  --foreground: #e5e7eb;
+  --card: #111827;
+  --border: #1f2937;
+  --primary: #14b8a6;
+  --primary-foreground: #04120f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --font-sans: var(--font-cairo);
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-cairo), "Cairo", ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  border-color: var(--border);
+}
+
+/* Larger tap targets on mobile, per spec: "أزرار واضحة وكبيرة" */
+button, a, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
