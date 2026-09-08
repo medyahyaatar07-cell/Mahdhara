@@ -88,11 +88,19 @@ export function AbsenceReportEditor({
           <Input value={values.reportTitle} onChange={(e) => set("reportTitle", e.target.value)} />
         </Field>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="اسم المحضرة">
-            <Input value={values.madrasaName} onChange={(e) => set("madrasaName", e.target.value)} />
+          <Field label="اسم المحضرة" hint="قيمة ثابتة، يمكن تغييرها من الإعدادات">
+            <p className="rounded-lg border border-border bg-black/5 px-3 py-2 text-sm text-foreground/80 dark:bg-white/5">
+              {values.madrasaName || (
+                <span className="text-foreground/40">غير محدد — اضبطه من الإعدادات</span>
+              )}
+            </p>
           </Field>
-          <Field label="اسم المشرف">
-            <Input value={values.supervisorName} onChange={(e) => set("supervisorName", e.target.value)} />
+          <Field label="اسم المشرف" hint="قيمة ثابتة، يمكن تغييرها من الإعدادات">
+            <p className="rounded-lg border border-border bg-black/5 px-3 py-2 text-sm text-foreground/80 dark:bg-white/5">
+              {values.supervisorName || (
+                <span className="text-foreground/40">غير محدد — اضبطه من الإعدادات</span>
+              )}
+            </p>
           </Field>
         </div>
 

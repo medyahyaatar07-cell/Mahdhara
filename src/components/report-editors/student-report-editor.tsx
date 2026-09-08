@@ -91,17 +91,29 @@ export function StudentReportEditor({
           <Input value={values.reportTitle} onChange={(e) => set("reportTitle", e.target.value)} />
         </Field>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="اسم المحضرة">
-            <Input value={values.madrasaName} onChange={(e) => set("madrasaName", e.target.value)} />
+          <Field label="اسم المحضرة" hint="قيمة ثابتة، يمكن تغييرها من الإعدادات">
+            <p className="rounded-lg border border-border bg-black/5 px-3 py-2 text-sm text-foreground/80 dark:bg-white/5">
+              {values.madrasaName || (
+                <span className="text-foreground/40">غير محدد — اضبطه من الإعدادات</span>
+              )}
+            </p>
           </Field>
           <Field label="العنوان">
             <Input value={values.madrasaAddress} onChange={(e) => set("madrasaAddress", e.target.value)} />
           </Field>
-          <Field label="اسم المشرف">
-            <Input value={values.supervisorName} onChange={(e) => set("supervisorName", e.target.value)} />
+          <Field label="اسم المشرف" hint="قيمة ثابتة، يمكن تغييرها من الإعدادات">
+            <p className="rounded-lg border border-border bg-black/5 px-3 py-2 text-sm text-foreground/80 dark:bg-white/5">
+              {values.supervisorName || (
+                <span className="text-foreground/40">غير محدد — اضبطه من الإعدادات</span>
+              )}
+            </p>
           </Field>
-          <Field label="رقم الهاتف">
-            <Input dir="ltr" className="text-left" value={values.phone} onChange={(e) => set("phone", e.target.value)} />
+          <Field label="رقم الهاتف" hint="قيمة ثابتة، يمكن تغييرها من الإعدادات">
+            <p dir="ltr" className="rounded-lg border border-border bg-black/5 px-3 py-2 text-left text-sm text-foreground/80 dark:bg-white/5">
+              {values.phone || (
+                <span className="text-foreground/40">غير محدد</span>
+              )}
+            </p>
           </Field>
         </div>
 
@@ -129,12 +141,14 @@ export function StudentReportEditor({
           </Field>
         </div>
 
-        <Field label="المحصول اليومي" hint="مثال: حفظ سورة الملك من الآية 1 إلى الآية 15">
-          <Textarea
-            rows={4}
-            value={values.dailyAchievement}
-            onChange={(e) => set("dailyAchievement", e.target.value)}
-          />
+        <Field label="المحصول اليومي" hint="مأخوذ من صفحة الحضور — لتعديله عُد إلى صفحة الحضور">
+          <p className="min-h-[3.5rem] whitespace-pre-wrap rounded-lg border border-border bg-black/5 px-3 py-2 text-sm text-foreground/80 dark:bg-white/5">
+            {values.dailyAchievement || (
+              <span className="text-foreground/40">
+                لم يُسجَّل محصول يومي لهذا الطالب في الحضور
+              </span>
+            )}
+          </p>
         </Field>
         <Field label="الملاحظات">
           <Textarea rows={3} value={values.notes} onChange={(e) => set("notes", e.target.value)} />
@@ -142,7 +156,7 @@ export function StudentReportEditor({
 
         {values.attendanceStatus === "present" && !values.dailyAchievement.trim() && (
           <p className="rounded-xl bg-sky-100 px-3 py-2 text-sm font-bold text-sky-800 dark:bg-sky-900/30 dark:text-sky-300">
-            تنبيه: لم يتم إدخال المحصول اليومي لهذا الطالب. يمكنك الحفظ رغم ذلك.
+            تنبيه: لم يتم تسجيل محصول يومي لهذا الطالب في صفحة الحضور. عُد إلى صفحة الحضور لإضافته.
           </p>
         )}
         {error && (

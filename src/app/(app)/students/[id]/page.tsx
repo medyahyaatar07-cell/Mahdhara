@@ -6,6 +6,7 @@ import { Badge, Card, LinkButton } from "@/components/ui";
 import { ATTENDANCE_LABELS, ATTENDANCE_COLORS, type AttendanceStatus } from "@/lib/types";
 import { formatShortDate, todayISO } from "@/lib/dates";
 import { StudentStatusToggle } from "@/components/student-status-toggle";
+import { StudentDeleteButton } from "@/components/student-delete-button";
 import { ReportRowActions } from "@/components/report-row-actions";
 import { Pencil, FileText } from "lucide-react";
 
@@ -81,6 +82,7 @@ export default async function StudentProfilePage({
             تعديل
           </Link>
           <StudentStatusToggle studentId={id} status={student.status as "active" | "inactive"} />
+          {profile.role === "admin" && <StudentDeleteButton studentId={id} />}
         </div>
       </div>
 
