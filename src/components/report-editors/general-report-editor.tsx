@@ -115,11 +115,13 @@ export function GeneralReportEditor({
                     <option value="late">متأخر</option>
                   </Select>
                 </div>
-                <Input
-                  placeholder="المحصول اليومي"
-                  value={row.daily_achievement}
-                  onChange={(e) => setRow(i, { daily_achievement: e.target.value })}
-                />
+                <p className="rounded-lg border border-border bg-black/5 px-3 py-2 text-sm text-foreground/80 dark:bg-white/5">
+                  {row.daily_achievement || (
+                    <span className="text-foreground/40">
+                      لم يُسجَّل محصول يومي لهذا الطالب في الحضور
+                    </span>
+                  )}
+                </p>
               </div>
             ))}
           </div>
